@@ -1,0 +1,68 @@
+; Tien Dinh - ram3.txt - Sum of squared-from-1-to-N
+
+JMP start:
+
+; variables
+
+var: 1		; Main N
+tmp: 0		; Squared N by adding (N-1)times to N
+sum: 0		; Main sum
+count: 0	; Count how many times you have to add N
+number: a	; a(hex) = 10(dec),  CHANGE THIS NUMBER TO GET "Sum of squared-from-1-to-N"
+
+start:
+; 1 is the special case, when N = 1, sum = 1
+	LDAC var;
+	MOVAC	;
+	STAC sum;
+	OUT	;	
+	JMP prepare:
+
+prepare:
+; Check if the sequence reach N, if so => Halt, if not, continue adding squared N 
+	LDAC var;
+	INC;
+	STAC var;
+	MOVAC	;
+	LDAC number;
+	INC;
+	SUB;
+	JUMPZ done;
+	LDAC var;
+	MOVAC	;
+	JMP loop:
+
+loop:
+; Start the counting from -N + 1
+	NOT	;
+	INC	;
+	INC	;
+	STAC count;
+	LDAC var;
+	STAC tmp;
+	JMP addition:
+
+addition:
+; Count how many times adding N to get squared N, add +1 to count until count = 0, JMPZ
+	LDAC tmp;
+	ADD	;
+	STAC tmp;
+	LDAC count;
+	INC	;
+	STAC count;
+	JMPZ continue:
+	JMP addition:
+
+continue:
+; After storing the N squared in tmp, add it with previous sum to get the result
+	LDAC sum;
+	MOVAC;
+	LDAC tmp;
+	ADD;
+	STAC sum;
+	OUT;
+	JMP prepare;
+
+done:
+	HALT;	Stop the execution
+	

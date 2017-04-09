@@ -1,0 +1,17 @@
+; Tien Dinh - ram1.txt
+
+JMP start
+
+; variables
+
+var1: A
+var2: 8
+
+start:
+	LDAC var2;	Load 8 into ACC
+	MOVAC	 ;	Load 8 into R
+	LDAC var1;	Load A (10 decimal) into ACC
+	SUB	 ;	ACC = ACC - R
+	OUT	 ;	Output a copy of ACC
+
+	HALT	 ;	Stop execution
